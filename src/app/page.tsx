@@ -17,7 +17,7 @@ export default async function Home() {
 }
 
 async function FeaturedProducts() {
-  await delay(1000);
+  // await delay(1000);
 
   const wixClient = getWixClient();
 
@@ -41,19 +41,20 @@ async function FeaturedProducts() {
   return (
     <div className="spacey5">
       <h2 className="text-2xl font-bold">Featured Products</h2>
-      <div className="flex grid-cols-2 flex-col sm:grid md:grid-cols-3 lg:grid-cols-4">
+      <div className="flex grid-cols-2 flex-col gap-4 sm:grid md:grid-cols-3 lg:grid-cols-4">
         {featuredProducts.items.map((product) => (
           <Product key={product._id} product={product} />
         ))}
       </div>
+      <pre>{JSON.stringify(featuredProducts, null, 2)}</pre>
     </div>
   );
 }
 
-function loadingSkeleton() {
-  <div className="flex grid-cols-2 flex-col pt-12 sm:grid md:grid-cols-3 lg:grid-cols-4">
-    {Array.from({ length: 8 }).map((_, i) => (
-      <div key={i}>Skeloton here</div>
-    ))}
-  </div>;
-}
+// function loadingSkeleton() {
+//   <div className="flex grid-cols-2 flex-col pt-12 sm:grid md:grid-cols-3 lg:grid-cols-4">
+//     {Array.from({ length: 8 }).map((_, i) => (
+//       <div key={i}>Skeloton here</div>
+//     ))}
+//   </div>;
+// }
