@@ -46,15 +46,6 @@ async function FeaturedProducts() {
           <Product key={product._id} product={product} />
         ))}
       </div>
-      <pre>{JSON.stringify(featuredProducts, null, 2)}</pre>
     </div>
   );
 }
-
-// function loadingSkeleton() {
-//   <div className="flex grid-cols-2 flex-col pt-12 sm:grid md:grid-cols-3 lg:grid-cols-4">
-//     {Array.from({ length: 8 }).map((_, i) => (
-//       <div key={i}>Skeloton here</div>
-//     ))}
-//   </div>;
-// }
