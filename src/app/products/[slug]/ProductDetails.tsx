@@ -5,6 +5,7 @@ import { products } from "@wix/stores";
 import ProductOptions from "./ProductOptions";
 import { useState } from "react";
 import { checkInStock, findVariant } from "@/lib/utils";
+import ProductPrice from "./ProductPrice";
 
 interface ProductDetailsProps {
   product: products.Product;
@@ -49,6 +50,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
               className="prose"
             ></div>
           )}
+          <ProductPrice product={product} selectedVariant={selectedVariant} />
           <ProductOptions
             product={product}
             selectedOptions={selectedOptions}
