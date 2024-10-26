@@ -1,9 +1,25 @@
 import { getProductBySlug } from "@/wix-api/products";
 import { notFound } from "next/navigation";
 import ProductDetails from "./ProductDetails";
+import { Metadata } from "next";
 
 interface PageProps {
   params: { slug: string };
+}
+
+export async function generateMetadata(props: PageProps): Promise<Metadata> {
+  const { slug } = await props.params; // Await params here
+
+  const product = await getProductBySlug(slug);
+
+  if (!product) notFound();
+
+  const mainImage = product.media?.mainMedia?.image;
+
+  return {
+    title: product.name,
+    description: "get this product on flowshop",
+  };
 }
 
 export default async function Page(props: PageProps) {
