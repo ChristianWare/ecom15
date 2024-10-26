@@ -1,3 +1,4 @@
+import { checkInStock } from "@/lib/utils";
 import { products } from "@wix/stores";
 
 interface ProductOptionsProps {
@@ -39,7 +40,14 @@ export default function ProductOptions({
                 />
                 <label
                   htmlFor={choice.description}
-                  className="flex min-w-14 cursor-pointer items-center justify-center gap-1.5 border p-2 peer-checked:border-black"
+                  className={`flex min-w-14 cursor-pointer items-center justify-center gap-1.5 border p-2 peer-checked:border-black ${
+                    checkInStock(product, {
+                      ...selectedOptions,
+                      [option.name || ""]: choice.description || "",
+                    })
+                      ? ""
+                      : "opacity-30"
+                  }`}
                 >
                   {option.optionType === products.OptionType.color && (
                     <span

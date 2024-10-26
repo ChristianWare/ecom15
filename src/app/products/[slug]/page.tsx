@@ -6,7 +6,9 @@ interface PageProps {
   params: { slug: string };
 }
 
-export default async function Page({ params: { slug } }: PageProps) {
+export default async function Page(props: PageProps) {
+  const { slug } = await props.params; // Await params here
+
   const product = await getProductBySlug(slug);
 
   if (!product?._id) notFound();
