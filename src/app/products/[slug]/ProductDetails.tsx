@@ -29,6 +29,12 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
 
   const inStock = checkInStock(product, selectedOptions);
 
+  const availableQuantity =
+    selectedVariant?.stock?.quantity ?? product.stock?.quantity;
+
+  const availableQuantityExceeded =
+    !!availableQuantity && quantity > availableQuantity;
+
   return (
     <div className="flex flex-col gap-10 md:flex-row lg:gap-20">
       <div className="basis-2/5">
@@ -52,10 +58,41 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
             setSelectedOptions={setSelectedOptions}
           />
         </div>
-        <div>
-          Variant:
-          {JSON.stringify(selectedVariant?.choices)}
+        <div className="5 space-y-1">
+          <label htmlFor="quantity">Quantity</label>
+          <div className="gap2-.5 flex items-center">
+            <input
+              type="number"
+              name="quantity"
+              value={quantity}
+              onChange={(e) => setQunatity(Number(e.target.value))}
+              className="w-24 border-blue-500"
+              disabled={!inStock}
+            />
+            {!!availableQuantity &&
+              (availableQuantityExceeded || availableQuantity < 10) && (
+                <span className="text-destructive">
+                  Only {availableQuantity} left in stock
+                </span>
+              )}
+          </div>
         </div>
+        {!!product.additionalInfoSections?.length && (
+          <>
+            <p>Additional product information</p>
+            {product.additionalInfoSections.map((section) => (
+              <div key={section.title}>
+                <p>{section.title}</p>
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: section.description || "",
+                  }}
+                  className="prose text-muted-foreground dark:prose-invert text-sm"
+                />
+              </div>
+            ))}{" "}
+          </>
+        )}
       </div>
     </div>
   );
