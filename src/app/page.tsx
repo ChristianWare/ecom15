@@ -28,8 +28,8 @@ async function FeaturedProducts() {
   }
 
   const featuredProducts = await queryProducts({
-    collectionIds: collection._id
-  })
+    collectionIds: collection._id,
+  });
   if (!featuredProducts.items.length) {
     return null;
   }

@@ -18,7 +18,19 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
 
   return {
     title: product.name,
-    description: "get this product on flowshop",
+    description: "Get this product on flowshop",
+    openGraph: {
+      images: mainImage?.url
+        ? [
+            {
+              url: mainImage.url,
+              width: mainImage.width,
+              height: mainImage.height,
+              alt: mainImage.altText || "",
+            },
+          ]
+        : undefined,
+    },
   };
 }
 
