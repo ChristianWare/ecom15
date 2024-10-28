@@ -1,3 +1,4 @@
+import { wixBrowserClient } from "@/lib/wix-client.browser";
 import { addToCart } from "@/wix-api/cart";
 import { products } from "@wix/stores";
 
@@ -16,14 +17,14 @@ export default function AddToCartButton({
   return (
     <button
       onClick={() =>
-        addToCart({
+        addToCart(wixBrowserClient, {
           product,
           selectedOptions,
           quantity,
         })
       }
       {...props}
-      className="rounded-md bg-red-700 text-white p-3"
+      className="rounded-md bg-red-700 p-3 text-white"
     >
       Add To Cart
     </button>
