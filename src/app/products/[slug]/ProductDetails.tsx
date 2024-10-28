@@ -7,6 +7,7 @@ import { useState } from "react";
 import { checkInStock, findVariant } from "@/lib/utils";
 import ProductPrice from "./ProductPrice";
 import ProductMedia from "./ProductMedia";
+import AddToCartButton from "@/components/AddToCartButton";
 
 interface ProductDetailsProps {
   product: products.Product;
@@ -77,6 +78,15 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
               )}
           </div>
         </div>
+        {inStock ? (
+          <AddToCartButton
+            product={product}
+            selectedOptions={selectedOptions}
+            quantity={quantity}
+          />
+        ) : (
+          "Out of stock"
+        )}
         {!!product.additionalInfoSections?.length && (
           <>
             <p>Additional product information</p>
