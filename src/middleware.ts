@@ -25,10 +25,8 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  request.cookies.set(WIX_SESSION_COOKIE, JSON.stringify(sessionTokens));
-
-  const res = NextResponse.next(request);
-
+  // Create a response and set cookies in the response header
+  const res = NextResponse.next();
   res.cookies.set(WIX_SESSION_COOKIE, JSON.stringify(sessionTokens), {
     maxAge: 60 * 60 * 24 * 14,
     secure: process.env.NODE_ENV === "production",
