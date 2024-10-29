@@ -85,7 +85,9 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
             quantity={quantity}
           />
         ) : (
-          "Out of stock"
+          <button className="flex items-center justify-center rounded-full bg-red-100 p-3 text-xs text-black">
+            Out of stock
+          </button>
         )}
         {!!product.additionalInfoSections?.length && (
           <>

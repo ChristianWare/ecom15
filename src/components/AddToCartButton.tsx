@@ -1,3 +1,4 @@
+import { useAdditemToCart } from "@/hooks/cart";
 import { wixBrowserClient } from "@/lib/wix-client.browser";
 import { addToCart } from "@/wix-api/cart";
 import { products } from "@wix/stores";
@@ -14,17 +15,19 @@ export default function AddToCartButton({
   quantity,
   ...props
 }: AddToCartButtonProps) {
+  const mutation = useAdditemToCart();
+
   return (
     <button
       onClick={() =>
-        addToCart(wixBrowserClient, {
+        mutation.mutate({
           product,
           selectedOptions,
           quantity,
         })
       }
       {...props}
-      className="rounded-md bg-red-700 p-3 text-white"
+      className="flex items-center justify-center rounded-full bg-red-500 text-xs text-white p-3"
     >
       Add To Cart
     </button>
