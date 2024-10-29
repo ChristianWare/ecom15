@@ -1,0 +1,19 @@
+.navParent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+    z-index: 9999;
+
+}
+
+.quantity {
+  background-color: red;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
