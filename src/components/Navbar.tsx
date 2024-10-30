@@ -7,14 +7,15 @@ import { getWixServerClient } from "@/lib/wix-client.server";
 import ShoppingCartButton from "./ShoppingCartButton";
 import UserButton from "./UserButton";
 import { getLoggedInMember } from "@/wix-api/members";
+import { getCollections } from "@/wix-api/collections";
 
 export default async function Navbar() {
   const wixClient = await getWixServerClient(); // Await the async function here
-  // const cart = await getCart(wixClient);
 
-  const [cart, loggedInMember] = await Promise.all([
+  const [cart, loggedInMember, collections] = await Promise.all([
     getCart(wixClient),
     getLoggedInMember(wixClient),
+    getCollections(wixClient),
   ]);
 
   return (
@@ -24,6 +25,23 @@ export default async function Navbar() {
           <Image src={logo} alt="Flow Shop logo" width={40} height={40} />
           <span className="text-xl font-bold">Flow Shop</span>
         </Link>
+        <div className="flex items-center justify-center gap-2">
+          <Link href="/shop">Shop</Link>
+          <Link href="/collections">Collections</Link>
+          <ul className="p-4">
+            {collections.map((collection) => (
+              <li key={collection._id}>
+                <Link
+                  href={`/collections/${collection.slug}`}
+                  legacyBehavior
+                  passHref
+                >
+                  {collection.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
         <div className="flex items-center justify-center gap-5">
           <UserButton loggedInMember={loggedInMember} />
           <ShoppingCartButton initialData={cart} />
