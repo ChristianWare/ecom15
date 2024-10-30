@@ -6,13 +6,16 @@ import { getCart } from "@/wix-api/cart";
 import { getWixServerClient } from "@/lib/wix-client.server";
 import ShoppingCartButton from "./ShoppingCartButton";
 import UserButton from "./UserButton";
+import { getLoggedInMember } from "@/wix-api/members";
 
 export default async function Navbar() {
   const wixClient = await getWixServerClient(); // Await the async function here
-  const cart = await getCart(wixClient);
+  // const cart = await getCart(wixClient);
 
-  const totalQuantity =
-    cart?.lineItems.reduce((acc, item) => acc + (item.quantity || 0), 0) || 0;
+  const [cart, loggedInMember] = await Promise.all([
+    getCart(wixClient),
+    getLoggedInMember(wixClient),
+  ]);
 
   return (
     <header className="bg-background shadow-sm">
@@ -22,7 +25,7 @@ export default async function Navbar() {
           <span className="text-xl font-bold">Flow Shop</span>
         </Link>
         <div className="flex items-center justify-center gap-5">
-          <UserButton />
+          <UserButton loggedInMember={loggedInMember} />
           <ShoppingCartButton initialData={cart} />
         </div>
       </div>
