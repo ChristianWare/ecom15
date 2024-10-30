@@ -8,6 +8,7 @@ import { checkInStock, findVariant } from "@/lib/utils";
 import ProductPrice from "./ProductPrice";
 import ProductMedia from "./ProductMedia";
 import AddToCartButton from "@/components/AddToCartButton";
+import BackInStockNotificationButton from "@/components/BackInStockNotificationButton";
 
 interface ProductDetailsProps {
   product: products.Product;
@@ -88,6 +89,10 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
           <button className="flex items-center justify-center rounded-full bg-red-100 p-3 text-xs text-black">
             Out of stock
           </button>
+          // <BackInStockNotificationButton
+          //   product={product}
+          //   selectedOptions={selectedOptions}
+          // />
         )}
         {!!product.additionalInfoSections?.length && (
           <>
