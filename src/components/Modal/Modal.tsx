@@ -33,7 +33,7 @@ export default function Modal({ isOpen, onClose, children }: Props) {
   if (!isOpen) return null;
 
   return (
-    <div className={styles.modalBackdrop} onClick={onClose}>
+    <div className={styles.modalBackdrop} >
       <div className={styles.modalContent}>
         <button
           onClick={onClose}

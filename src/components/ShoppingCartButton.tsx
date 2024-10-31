@@ -5,6 +5,7 @@ import {
   useRemoveCartItem,
   useUpdateCartItemQuantity,
 } from "@/hooks/cart";
+import { useCartCheckout } from "@/hooks/checkout";
 import { currentCart } from "@wix/ecom";
 import { useState } from "react";
 import styles from "./ShoppingCartButton.module.css";
@@ -22,12 +23,22 @@ export default function ShoppingCartButton({
   const [sheetOpen, setSheetOpen] = useState(false);
 
   const cartQuery = useCart(initialData);
+  const { startCheckoutFlow, pending } = useCartCheckout(); // Integrate useCartCheckout here
 
   const totalQuantity =
     cartQuery.data?.lineItems?.reduce(
       (acc, item) => acc + (item.quantity || 0),
       0,
     ) || 0;
+
+  const handleCheckout = async () => {
+    try {
+      await startCheckoutFlow();
+    } catch (error) {
+      console.error("Error during checkout flow:", error);
+    }
+  };
+
   return (
     <>
       <div className="relative">
@@ -88,10 +99,11 @@ export default function ShoppingCartButton({
                 Shipping and taxes calculated at checkout
               </p>
               <button
+                onClick={handleCheckout}
+                disabled={!totalQuantity || cartQuery.isFetching || pending}
                 className="rounded-md bg-orange-500 p-3 text-white"
-                disabled={!totalQuantity || cartQuery.isFetching}
               >
-                Checkout
+                {pending ? "Processing..." : "Checkout"}
               </button>
             </div>
           </div>
@@ -111,7 +123,6 @@ function ShoppingCartItem({
   onProductLinkClicked,
 }: ShoppingCartItemProps) {
   const updateQuantityMutation = useUpdateCartItemQuantity();
-
   const removeItemMutation = useRemoveCartItem();
 
   const productId = item._id;

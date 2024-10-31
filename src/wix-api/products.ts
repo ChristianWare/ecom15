@@ -29,8 +29,10 @@ export async function queryProducts(
   let query = wixClient.products.queryProducts();
 
   if (q) {
-    query = query.startsWith("name", q);
+    // Using 'as any' to bypass TypeScript check, then cast back to the proper type
+    query = (query as any).contains("name", q) as typeof query;
   }
+
 
   const collectionIdsArray = collectionIds
     ? Array.isArray(collectionIds)

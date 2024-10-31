@@ -1,6 +1,4 @@
 import Product from "@/components/Product";
-import { delay } from "@/lib/utils";
-import { getWixClient } from "@/lib/wix-client.base";
 import { getWixServerClient } from "@/lib/wix-client.server";
 import { getCollectionBySlug } from "@/wix-api/collections";
 import { queryProducts } from "@/wix-api/products";
@@ -20,9 +18,8 @@ export default async function Home() {
 }
 
 async function FeaturedProducts() {
-  // await delay(1000);
 
-  const wixClient = await getWixServerClient(); // Await the async function here
+  const wixClient = await getWixServerClient();
 
   const collection = await getCollectionBySlug(wixClient, "featured-products");
 
@@ -31,7 +28,6 @@ async function FeaturedProducts() {
   }
 
   const featuredProducts = await queryProducts(wixClient, {
-    // Add missing comma
     collectionIds: collection._id,
   });
 
