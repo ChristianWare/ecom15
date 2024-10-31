@@ -15,8 +15,8 @@ export default function CheckoutButton(props: any) {
   };
 
   return (
-      <button onClick={handleCheckout} loading={pending} {...props}>
+      <LoadingButton onClick={handleCheckout} loading={pending} {...props}>
         Checkout
-      </button>
+      </LoadingButton>
   );
 }
