@@ -11,9 +11,11 @@ interface PageProps {
   params: { slug: string };
 }
 
+// Update generateMetadata to handle params asynchronously
 export async function generateMetadata({
-  params: { slug },
+  params,
 }: PageProps): Promise<Metadata> {
+  const { slug } = await Promise.resolve(params);
   const collection = await getCollectionBySlug(
     await getWixServerClient(),
     slug,
@@ -32,7 +34,8 @@ export async function generateMetadata({
   };
 }
 
-export default async function Page({ params: { slug } }: PageProps) {
+export default async function Page({ params }: PageProps) {
+  const { slug } = await Promise.resolve(params); // Await params before destructuring
   const collection = await getCollectionBySlug(
     await getWixServerClient(),
     slug,
@@ -55,7 +58,7 @@ interface ProductProps {
 }
 
 async function Products({ collectionId }: ProductProps) {
-//   await delay(2000);
+  //   await delay(2000);
 
   const collectionProducts = await queryProducts(await getWixServerClient(), {
     collectionIds: collectionId,

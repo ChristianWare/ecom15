@@ -18,8 +18,14 @@ export default function Layout({ children, params }: LayoutProps) {
   );
 }
 
-async function CollectionsLayout({ children, params: { slug } }: LayoutProps) {
-  const collection = await getCollectionBySlug(await getWixServerClient(), slug);
+async function CollectionsLayout({ children, params }: LayoutProps) {
+  // Await params to ensure it’s resolved before accessing slug
+  const { slug } = await Promise.resolve(params);
+
+  const collection = await getCollectionBySlug(
+    await getWixServerClient(),
+    slug,
+  );
 
   if (!collection) notFound();
 

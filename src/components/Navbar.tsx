@@ -8,6 +8,7 @@ import ShoppingCartButton from "./ShoppingCartButton";
 import UserButton from "./UserButton";
 import { getLoggedInMember } from "@/wix-api/members";
 import { getCollections } from "@/wix-api/collections";
+import SearchField from "./SearchField";
 
 export default async function Navbar() {
   const wixClient = await getWixServerClient(); // Await the async function here
@@ -43,6 +44,7 @@ export default async function Navbar() {
           </ul>
         </div>
         <div className="flex items-center justify-center gap-5">
+        <SearchField />
           <UserButton loggedInMember={loggedInMember} />
           <ShoppingCartButton initialData={cart} />
         </div>
