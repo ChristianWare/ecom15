@@ -5,7 +5,7 @@ interface LoadingButtonProps {
   children: React.ReactNode;
 }
 
-export function LoadingButton({
+export default function LoadingButton({
   loading,
   onClick,
   disabled,

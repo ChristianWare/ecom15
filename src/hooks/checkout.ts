@@ -1,6 +1,8 @@
 import { wixBrowserClient } from "@/lib/wix-client.browser";
 import {
   getCheckoutUrlForCurrentCart,
+  getCheckoutUrlForProduct,
+  GetCheckoutUrlForProductValues,
 } from "@/wix-api/checkout";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -14,18 +16,35 @@ export function useCartCheckout() {
     try {
       const checkoutUrl = await getCheckoutUrlForCurrentCart(wixBrowserClient);
       window.location.href = checkoutUrl;
-    } catch (error: any) {
+    } catch (error) {
       setPending(false);
       console.error(error);
-
-      if (error.message.includes("Site must accept payments")) {
-        toast.error("Please set up a payment method to proceed with checkout.");
-      } else {
-        toast.error("Failed to load checkout. Please try again.");
-      }
+      toast.error("Failed to load checkout. Please try again.");
     }
   }
 
+  return { startCheckoutFlow, pending };
+}
+
+export function useQuickBuy() {
+
+  const [pending, setPending] = useState(false);
+
+  async function startCheckoutFlow(values: GetCheckoutUrlForProductValues) {
+    setPending(true);
+
+    try {
+      const checkoutUrl = await getCheckoutUrlForProduct(
+        wixBrowserClient,
+        values,
+      );
+      window.location.href = checkoutUrl;
+    } catch (error) {
+      setPending(false);
+      console.error(error);
+     toast.error("Failed to load checkout. Please try again.");
+    }
+  }
 
   return { startCheckoutFlow, pending };
 }

@@ -9,6 +9,7 @@ import ProductPrice from "./ProductPrice";
 import ProductMedia from "./ProductMedia";
 import AddToCartButton from "@/components/AddToCartButton";
 import BackInStockNotificationButton from "@/components/BackInStockNotificationButton";
+import BuyNowButton from "@/components/BuyNowButton";
 
 interface ProductDetailsProps {
   product: products.Product;
@@ -80,11 +81,18 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
           </div>
         </div>
         {inStock ? (
-          <AddToCartButton
-            product={product}
-            selectedOptions={selectedOptions}
-            quantity={quantity}
-          />
+          <div className="flex items-center gap-2.5">
+            <AddToCartButton
+              product={product}
+              selectedOptions={selectedOptions}
+              quantity={quantity}
+            />
+            <BuyNowButton
+              product={product}
+              selectedOptions={selectedOptions}
+              quantity={quantity}
+            />
+          </div>
         ) : (
           <button className="flex items-center justify-center rounded-full bg-red-100 p-3 text-xs text-black">
             Out of stock
