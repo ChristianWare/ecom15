@@ -5,6 +5,11 @@ import { Metadata } from "next";
 import { getWixServerClient } from "@/lib/wix-client.server";
 import Product from "@/components/Product";
 import { Suspense } from "react";
+import { products } from "@wix/stores";
+import CreateProductReviewButton from "@/components/reviews/CreateProductReviewButton";
+import { getProductReviews } from "@/wix-api/reviews";
+import { getLoggedInMember } from "@/wix-api/members";
+import ProductReviews from "./ProductReviews";
 
 interface PageProps {
   params: { slug: string };
@@ -55,6 +60,12 @@ export default async function Page({ params }: PageProps) {
         <RelatedProducts productId={product._id} />
       </Suspense>
       <hr />
+      <div className="space-y-5">
+        <h2 className="text-2xl font-bold">Buyer reviews</h2>
+        <Suspense fallback={"Loading..."}>
+          <ProductReviewsSection product={product} />
+        </Suspense>
+      </div>
     </main>
   );
 }
@@ -79,6 +90,38 @@ async function RelatedProducts({ productId }: RelatedProductsProps) {
           <Product key={product._id} product={product} />
         ))}
       </div>
+    </div>
+  );
+}
+
+interface ProductReviewsSectionProps {
+  product: products.Product;
+}
+
+async function ProductReviewsSection({ product }: ProductReviewsSectionProps) {
+  if (!product._id) return null;
+
+  const wixClient = getWixServerClient();
+
+  const loggedInMember = await getLoggedInMember(await wixClient);
+
+  const existingReview = loggedInMember?.contactId
+    ? (
+        await getProductReviews(await wixClient, {
+          productId: product._id,
+          contactId: loggedInMember.contactId,
+        })
+      ).items[0]
+    : null;
+
+  return (
+    <div className="space-y-5">
+      <CreateProductReviewButton
+        product={product}
+        loggedInMember={loggedInMember}
+        hasExistingReview={!!existingReview}
+      />
+      <ProductReviews product={product} />
     </div>
   );
 }
