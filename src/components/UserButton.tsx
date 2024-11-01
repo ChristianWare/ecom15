@@ -2,6 +2,7 @@
 
 import useAuth from "@/hooks/auth";
 import { members } from "@wix/members";
+import Link from "next/link";
 
 interface UserButtonProps {
   loggedInMember: members.Member | null;
@@ -12,7 +13,7 @@ export default function UserButton({ loggedInMember }: UserButtonProps) {
   return (
     <div>
       {loggedInMember ? (
-        <>
+        <div className="flex items-center justify-center gap-2">
           <button
             onClick={() => login()}
             className="rounded-md bg-orange-400 p-2 text-white"
@@ -25,7 +26,13 @@ export default function UserButton({ loggedInMember }: UserButtonProps) {
           >
             Logout
           </button>
-        </>
+          <Link
+            href="/profile"
+            className="rounded-md bg-green-400 p-2 text-white"
+          >
+            Profile
+          </Link>
+        </div>
       ) : (
         <button
           onClick={() => login()}
